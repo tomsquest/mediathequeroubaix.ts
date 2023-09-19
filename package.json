@@ -1,0 +1,42 @@
+{
+  "name": "mediathequeroubaix.typescript",
+  "version": "1.0.0",
+  "description": "",
+  "keywords": [],
+  "author": "Thomas Queste <tom@tomsquest.com> (https://www.tomsquest.com/)",
+  "license": "MIT",
+  "type": "module",
+  "module": "src/index.ts",
+  "devDependencies": {
+    "@tsconfig/node18": "^18.2.2",
+    "@typescript-eslint/eslint-plugin": "^6.7.2",
+    "@typescript-eslint/parser": "^6.7.2",
+    "bun-types": "^1.0.2",
+    "eslint": "^8.49.0",
+    "eslint-config-prettier": "^9.0.0",
+    "husky": "^8.0.3",
+    "lint-staged": "^14.0.1",
+    "prettier": "^3.0.3",
+    "rimraf": "^5.0.1",
+    "typescript": "^5.2.2"
+  },
+  "lint-staged": {
+    "*.{md,js,cjs,json}": [
+      "prettier --write --cache"
+    ],
+    "src/**/*.ts": [
+      "eslint --fix --cache --cache-location .cache/",
+      "prettier --write --cache",
+      "bun test"
+    ]
+  },
+  "scripts": {
+    "prepare": "husky install",
+    "clean": "rimraf .cache dist",
+    "test": "bun test",
+    "prettier": "prettier . --cache --check",
+    "prettier:fix": "prettier . --cache --write",
+    "lint": "eslint --ext .ts --cache --cache-location .cache/ src",
+    "lint:fix": "bun lint -- --fix"
+  }
+}
