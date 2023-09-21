@@ -34,9 +34,10 @@
     "prepare": "husky install",
     "clean": "rimraf .cache dist",
     "test": "bun test",
-    "prettier": "prettier . --cache --check",
-    "prettier:fix": "prettier . --cache --write",
-    "lint": "eslint --ext .ts --cache --cache-location .cache/ src",
-    "lint:fix": "bun lint -- --fix"
+    "fix:prettier": "prettier . --cache --write",
+    "fix:lint": "bun check:lint -- --fix",
+    "check:prettier": "prettier . --cache --check",
+    "check:lint": "eslint --ext .ts --cache --cache-location .cache",
+    "check:typescript": "tsc"
   }
 }

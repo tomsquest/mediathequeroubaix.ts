@@ -2,11 +2,14 @@
   "extends": "@tsconfig/node18/tsconfig.json",
   "compilerOptions": {
     "types": ["bun-types"],
-    "moduleResolution": "bundler",
 
-    // Let's Bun build
+    // Bun
     "noEmit": true,
-    "incremental": true,
+    "lib": ["esnext"],
+    "module": "esnext",
+    "target": "esnext",
+    "moduleResolution": "bundler",
+    "moduleDetection": "force",
 
     // Best practices
     "allowUnreachableCode": false,
