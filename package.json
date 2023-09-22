@@ -33,7 +33,6 @@
   "scripts": {
     "prepare": "husky install",
     "clean": "rimraf .cache dist",
-    "test": "bun test",
     "fix:prettier": "prettier . --cache --write",
     "fix:lint": "bun check:lint -- --fix",
     "check:prettier": "prettier . --cache --check",
