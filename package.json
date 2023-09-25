@@ -14,6 +14,8 @@
     "bun-types": "^1.0.2",
     "eslint": "^8.49.0",
     "eslint-config-prettier": "^9.0.0",
+    "eslint-plugin-import": "^2.28.1",
+    "eslint-plugin-simple-import-sort": "^10.0.0",
     "husky": "^8.0.3",
     "lint-staged": "^14.0.1",
     "prettier": "^3.0.3",
@@ -36,7 +38,7 @@
     "fix:prettier": "prettier . --cache --write",
     "fix:lint": "bun check:lint -- --fix",
     "check:prettier": "prettier . --cache --check",
-    "check:lint": "eslint --ext .ts --cache --cache-location .cache",
+    "check:lint": "eslint . --cache --cache-location .cache",
     "check:typescript": "tsc"
   }
 }
