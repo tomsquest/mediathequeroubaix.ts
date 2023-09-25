@@ -1,5 +1,10 @@
+import { pipe } from "fp-ts/function";
+
+import { getCommand } from "./command-line";
+
 const main = (): void => {
-  // nothing
+  const command = pipe(process.argv.slice(2), getCommand);
+  command();
 };
 
 main();

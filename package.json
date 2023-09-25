@@ -41,5 +41,8 @@
     "check:prettier": "prettier . --cache --check",
     "check:lint": "eslint . --cache --cache-location .cache",
     "check:typescript": "tsc"
+  },
+  "dependencies": {
+    "fp-ts": "^2.16.1"
   }
 }
