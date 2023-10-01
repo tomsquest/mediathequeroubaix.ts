@@ -14,7 +14,7 @@ export const getCommand = (args: string[]): Command => {
       () => usage(),
       (name) => {
         if (name === "loans") return getLoans;
-        return usage(`unknown command: $name`);
+        return usage(`unknown command: ${name}`);
       },
     ),
   );
