@@ -1,10 +1,11 @@
 import { pipe } from "fp-ts/function";
 import * as O from "fp-ts/Option";
+import * as TE from "fp-ts/TaskEither";
 
-import { getLoans } from "./loans";
+import { listLoans } from "./loans";
 import { usage } from "./usage";
 
-type Command = () => void;
+type Command = () => TE.TaskEither<Error, string>;
 
 export const getCommand = (args: string[]): Command => {
   return pipe(
@@ -13,7 +14,7 @@ export const getCommand = (args: string[]): Command => {
     O.match(
       () => usage(),
       (name) => {
-        if (name === "loans") return getLoans;
+        if (name === "loans") return listLoans;
         return usage(`unknown command: ${name}`);
       },
     ),
