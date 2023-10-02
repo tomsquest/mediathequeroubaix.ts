@@ -43,6 +43,7 @@
     "check:typescript": "tsc"
   },
   "dependencies": {
-    "fp-ts": "^2.16.1"
+    "fp-ts": "^2.16.1",
+    "undici": "^5.25.3"
   }
 }
