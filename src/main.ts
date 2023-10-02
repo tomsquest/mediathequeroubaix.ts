@@ -13,7 +13,7 @@ const main = async (): Promise<void> => {
     (cmd) => cmd(),
     TE.match(
       (error) => `An error occurred!${EOL}${error.message}`,
-      (unkn) => unkn,
+      (msg) => msg,
     ),
   )();
   console.log(result);
