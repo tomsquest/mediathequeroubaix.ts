@@ -1,7 +1,7 @@
 import { getHelloWorld } from "./getHelloWorld";
 
 const main = (): void => {
-  console.log(getHelloWorld());
+	console.log(getHelloWorld());
 };
 
 main();
