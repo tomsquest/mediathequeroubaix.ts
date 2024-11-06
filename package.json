@@ -17,6 +17,7 @@
 	},
 	"scripts": {
 		"clean": "rimraf .cache dist",
+		"test": "bun test",
 		"ts:check": "tsc --noEmit",
 		"format:check": "biome format",
 		"format:fix": "biome format --fix",

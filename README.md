@@ -25,3 +25,10 @@ You can find it here: https://github.com/tomsquest/mediathequeroubaix.py
 2. Experiment with [Bun](https://bun.sh)
 3. Experiment with [Biome](https://biomejs.dev/)
 4. Experiment with [Lefthook](https://github.com/evilmartians/lefthook)
+
+## Development
+
+1. Install [Bun](https://bun.sh) (I install from LinuxBrew)
+2. Install [Lefthook](https://github.com/evilmartians/lefthook) (I install from LinuxBrew)
+3. Install dependencies: `bun install`
+4. Setup Git hooks: `lefthook install`

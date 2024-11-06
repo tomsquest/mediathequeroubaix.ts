@@ -1,0 +1,10 @@
+pre-commit:
+  commands:
+    format:
+      run: bun biome format --fix {staged_files}
+    lint:
+      run: bun biome lint --fix --error-on-warnings {staged_files}
+    ts:
+      run: bun tsc --noEmit
+    test:
+      run: bun test
