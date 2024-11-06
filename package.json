@@ -17,10 +17,10 @@
 	},
 	"scripts": {
 		"clean": "rimraf .cache dist",
-		"check:format": "biome format",
-		"check:lint": "biome lint",
-		"check:ts": "tsc --noEmit",
-		"lint:format": "biome format --fix",
-		"lint:check": "biome lint --fix"
+		"ts:check": "tsc --noEmit",
+		"format:check": "biome format",
+		"format:fix": "biome format --fix",
+		"lint:check": "biome lint --error-on-warnings",
+		"lint:fix": "biome lint--error-on-warnings --fix"
 	}
 }
