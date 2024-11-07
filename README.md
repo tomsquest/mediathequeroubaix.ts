@@ -12,6 +12,12 @@ Using NPX:
 npx mediathequeroubaix loans renew
 ```
 
+Using Bun:
+
+```shell
+bunx mediathequeroubaix loans renew
+```
+
 ## MediathequeRoubaix.PY: the same in Python
 
 This project already exists in Python, achieved with the same goals : 
