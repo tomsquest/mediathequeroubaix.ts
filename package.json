@@ -1,12 +1,18 @@
 {
-	"name": "mediathequeroubaix.ts",
-	"version": "1.0.0",
+	"name": "mediathequeroubaix",
+	"version": "0.1.1",
 	"description": "CLI for the library of Roubaix (Médiathèque Roubaix)",
-	"keywords": [],
+	"keywords": ["cli", "mediathequeroubaix"],
 	"author": "Thomas Queste <tom@tomsquest.com> (https://www.tomsquest.com/)",
+	"homepage": "https://github.com/tomsquest/mediathequeroubaix.ts",
 	"license": "MIT",
 	"type": "module",
-	"module": "src/index.ts",
+	"main": "dist/index.js",
+	"module": "dist/index.js",
+	"exports": {
+		"import": "./dist/index.js"
+	},
+	"files": ["dist"],
 	"devDependencies": {
 		"@biomejs/biome": "1.9.4",
 		"@tsconfig/node22": "22.0.0",
@@ -22,6 +28,8 @@
 		"format:check": "biome format",
 		"format:fix": "biome format --fix",
 		"lint:check": "biome lint --error-on-warnings",
-		"lint:fix": "biome lint--error-on-warnings --fix"
+		"lint:fix": "biome lint--error-on-warnings --fix",
+		"build": "bun build ./src/index.ts --outdir dist --target node --format esm --minify",
+		"prepublishOnly": "bun run clean && bun run build"
 	}
 }
