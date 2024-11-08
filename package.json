@@ -1,13 +1,13 @@
 {
 	"name": "mediathequeroubaix",
-	"version": "0.1.1",
+	"version": "0.1.4",
 	"description": "CLI for the library of Roubaix (Médiathèque Roubaix)",
 	"keywords": ["cli", "mediathequeroubaix"],
 	"author": "Thomas Queste <tom@tomsquest.com> (https://www.tomsquest.com/)",
 	"homepage": "https://github.com/tomsquest/mediathequeroubaix.ts",
 	"license": "MIT",
 	"type": "module",
-	"main": "dist/index.js",
+	"bin": "dist/index.js",
 	"module": "dist/index.js",
 	"exports": {
 		"import": "./dist/index.js"
