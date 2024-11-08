@@ -6,6 +6,10 @@
 	"author": "Thomas Queste <tom@tomsquest.com> (https://www.tomsquest.com/)",
 	"homepage": "https://github.com/tomsquest/mediathequeroubaix.ts",
 	"license": "MIT",
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/tomsquest/mediathequeroubaix.ts.git"
+	},
 	"type": "module",
 	"bin": "dist/index.js",
 	"module": "dist/index.js",
