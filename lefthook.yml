@@ -1,9 +1,9 @@
 pre-commit:
   commands:
     format:
-      run: bun biome format --fix {staged_files}
+      run: bun biome format --fix --no-errors-on-unmatched {staged_files}
     lint:
-      run: bun biome lint --fix --error-on-warnings {staged_files}
+      run: bun biome lint --fix --no-errors-on-unmatched --error-on-warnings {staged_files}
     ts:
       run: bun tsc --noEmit
     test:
