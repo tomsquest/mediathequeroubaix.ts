@@ -17,6 +17,9 @@
 		"import": "./dist/index.js"
 	},
 	"files": ["dist"],
+	"dependencies": {
+		"composable-functions": "^4.4.0"
+	},
 	"devDependencies": {
 		"@biomejs/biome": "1.9.4",
 		"@tsconfig/node22": "22.0.0",
@@ -35,8 +38,5 @@
 		"lint:fix": "biome lint--error-on-warnings --fix",
 		"build": "bun build ./src/index.ts --outdir dist --target node --format esm --minify",
 		"prepublishOnly": "bun run clean && bun run build"
-	},
-	"dependencies": {
-		"composable-functions": "^4.4.0"
 	}
 }
