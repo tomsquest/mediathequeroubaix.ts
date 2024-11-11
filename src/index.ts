@@ -1,48 +1,43 @@
 #!/usr/bin/env node
 
-import { type Result, failure, success } from "composable-functions";
+import { type Success, success } from "composable-functions";
 
-type Command = () => void;
+type Command = (...args: unknown[]) => void;
 
-const usageCommand: Command = () => {
-	console.log(`Usage: <command> [options]
-
-Commands:
-	loans	List all loans
-	usage	Display this usage information
-`);
+const usageCommand = (errorMessage?: string) => () => {
+	return () => {
+		if (errorMessage) {
+			console.error(errorMessage);
+		}
+		console.log("Usage: loans <command>");
+		console.log("Commands:");
+		console.log("  loans: List all loans");
+		console.log("  usage: Show this usage information");
+	};
 };
 
 const loansCommand: Command = () => {
 	console.log("Loans command");
 };
 
-const getCommand = (args: string[]): Result<Command> => {
+const getCommand = (args: string[]): Success<Command> => {
 	if (args.length > 0) {
 		const firstArg = args[0];
 		switch (firstArg) {
 			case "loans":
 				return success(loansCommand);
 			case "usage":
-				return success(usageCommand);
+				return success(usageCommand());
 			default:
-				return failure([new Error(`unknown command: ${firstArg}`)]);
+				return success(usageCommand(`Unknown command: ${firstArg}`));
 		}
 	}
-	return failure([new Error("missing command")]);
+	return success(usageCommand("missing command"));
 };
 
 const main = (): void => {
 	const result = getCommand(process.argv.slice(2));
-	if (result.success) {
-		result.data();
-	} else {
-		for (const error of result.errors) {
-			console.error(error.message);
-		}
-		console.log(); // blank lines
-		usageCommand();
-	}
+	result.data();
 };
 
 main();
