@@ -31,11 +31,8 @@
 	"scripts": {
 		"clean": "rimraf .cache dist",
 		"test": "bun test",
-		"ts:check": "tsc --noEmit",
-		"format:check": "biome format",
-		"format:fix": "biome format --fix",
-		"lint:check": "biome lint --error-on-warnings",
-		"lint:fix": "biome lint--error-on-warnings --fix",
+		"check": "biome check --no-errors-on-unmatched --files-ignore-unknown=true --error-on-warnings && tsc --noEmit",
+		"fix": "biome check --no-errors-on-unmatched --files-ignore-unknown=true --error-on-warnings --fix && tsc --noEmit",
 		"build": "bun build ./src/index.ts --outdir dist --target node --format esm --minify",
 		"prepublishOnly": "bun run clean && bun run build"
 	}
