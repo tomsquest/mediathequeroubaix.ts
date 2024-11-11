@@ -1,13 +1,14 @@
 #!/usr/bin/env node
 
-import * as fs from "node:fs/promises";
-import * as path from "node:path";
+import { promises as fs } from "node:fs";
+import { sep } from "node:path";
 import { type Result, composable, pipe, success } from "composable-functions";
 
 type Command = () => Promise<Result>;
 
-const usageCommand = (errorMessage?: string) => {
-	return async (): Promise<Result> => {
+const usageCommand =
+	(errorMessage?: string): Command =>
+	async (): Promise<Result> => {
 		if (errorMessage) {
 			console.error(errorMessage);
 			console.error(); // blank line
@@ -18,7 +19,6 @@ const usageCommand = (errorMessage?: string) => {
 		console.log("  usage: Show this usage information");
 		return success(void 0);
 	};
-};
 
 const loanCommand = async (): Promise<Result> => {
 	console.error("Not yet implemented");
@@ -27,14 +27,14 @@ const loanCommand = async (): Promise<Result> => {
 
 const getHomeDir = composable(
 	(env: Record<string, string | undefined>): string => {
-		const maybeHome = env.HOME;
-		if (maybeHome) return maybeHome;
+		const home = env.HOME;
+		if (home) return home;
 		throw new Error("unable to find home directory");
 	},
 );
 
 const getConfigFilename = (homeDir: string): string =>
-	`${homeDir}${path.sep}.config${path.sep}mediathequeroubaix${path.sep}config.json`;
+	`${homeDir}${sep}.config${sep}mediathequeroubaix${sep}config.json`;
 
 const fileExist = composable(async (file: string): Promise<string> => {
 	try {
@@ -45,9 +45,9 @@ const fileExist = composable(async (file: string): Promise<string> => {
 	}
 });
 
-const readFile = composable((filename: string): Promise<string> => {
-	return fs.readFile(filename, "utf-8");
-});
+const readFile = composable(
+	(filename: string): Promise<string> => fs.readFile(filename, "utf-8"),
+);
 
 const parseJson = composable((text: string): Promise<object> => {
 	try {
@@ -88,7 +88,6 @@ const getCommand = (args: string[]): Command => {
 				return usageCommand(`Unknown command: ${firstArg}`);
 		}
 	}
-	// return success(usageCommand("Missing argument, none provided"));
 	return usageCommand("Missing argument, none provided");
 };
 
