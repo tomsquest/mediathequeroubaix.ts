@@ -1,9 +1,9 @@
 pre-commit:
+  parallel: true
   commands:
-    format:
-      run: bun biome format --fix --no-errors-on-unmatched {staged_files}
-    lint:
-      run: bun biome lint --fix --no-errors-on-unmatched --error-on-warnings {staged_files}
+    check:
+      run: bun biome check --no-errors-on-unmatched --files-ignore-unknown=true --error-on-warnings --fix {staged_files}
+      stage_fixed: true
     ts:
       run: bun tsc --noEmit
     test:
