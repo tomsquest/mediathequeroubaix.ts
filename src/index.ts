@@ -17,12 +17,12 @@ const usageCommand =
 		console.log("Commands:");
 		console.log("  loans: List all loans");
 		console.log("  usage: Show this usage information");
-		return success(void 0);
+		return success(undefined);
 	};
 
 const loanCommand = async (): Promise<Result> => {
 	console.error("Not yet implemented");
-	return success(void 0);
+	return success(undefined);
 };
 
 const getHomeDir = composable(
