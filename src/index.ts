@@ -2,28 +2,36 @@
 
 import { promises as fs } from "node:fs";
 import { sep } from "node:path";
-import { type Result, pipe, success } from "composable-functions";
+import {
+	type Composable,
+	type Result,
+	composable,
+	pipe,
+	success,
+} from "composable-functions";
 
-type Command = () => Promise<Result>;
+type Command = {
+	type: string;
+	run: Composable;
+};
 
-const usageCommand =
-	(errorMessage?: string): Command =>
-	async (): Promise<Result> => {
+const usageCommand = (errorMessage?: string) =>
+	composable(async (): Promise<Result> => {
 		if (errorMessage) {
 			console.error(errorMessage);
 			console.error(); // blank line
 		}
-		console.log("Usage: loans <command>");
+		console.log("Usage: npx mediathequeroubaix <command>");
 		console.log("Commands:");
 		console.log("  loans: List all loans");
 		console.log("  usage: Show this usage information");
 		return success(undefined);
-	};
+	});
 
-const loanCommand = async (): Promise<Result> => {
+const loanCommand = composable(async (): Promise<Result> => {
 	console.error("Not yet implemented");
 	return success(undefined);
-};
+});
 
 const getHomeDir = (env: Record<string, string | undefined>): string => {
 	const home = env.HOME;
@@ -59,7 +67,7 @@ const printConfig = (config: object): Promise<void> => {
 	return Promise.resolve();
 };
 
-const showConfigCommand = async (): Promise<Result> => {
+const showConfigCommand = composable(async (): Promise<Result> => {
 	const showConfig = pipe(
 		getHomeDir,
 		getConfigFilename,
@@ -69,28 +77,38 @@ const showConfigCommand = async (): Promise<Result> => {
 		printConfig,
 	);
 	return showConfig(process.env);
-};
+});
 
 const getCommand = (args: string[]): Command => {
 	if (args.length > 0) {
 		const firstArg = args[0];
 		switch (firstArg) {
 			case "usage":
-				return usageCommand();
+				return { type: "usage", run: usageCommand() };
 			case "loans":
-				return loanCommand;
+				return { type: "loans", run: loanCommand };
 			case "config":
-				return showConfigCommand;
+				return { type: "config", run: showConfigCommand };
 			default:
-				return usageCommand(`Unknown command: ${firstArg}`);
+				return {
+					type: "usage",
+					run: usageCommand(`Unknown command: ${firstArg}`),
+				};
 		}
 	}
-	return usageCommand("Missing argument, none provided");
+	return {
+		type: "usage",
+		run: usageCommand("Missing argument, none provided"),
+	};
 };
 
 const main = async (): Promise<void> => {
 	const cmd = getCommand(process.argv.slice(2));
-	await cmd();
+	const result = await cmd.run();
+	if (!result.success) {
+		console.error("Error:", result.errors);
+		process.exit(1);
+	}
 };
 
 main();
