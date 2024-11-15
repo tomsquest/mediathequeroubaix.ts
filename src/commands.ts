@@ -7,17 +7,18 @@ export type Command = {
 	run: () => Promise<Result>;
 };
 
-const commands = (errorMessage?: string) => async (): Promise<Result> => {
-	if (errorMessage) {
-		console.error(errorMessage);
-		console.error(); // blank line
-	}
-	console.log("Usage: npx mediathequeroubaix <command>");
-	console.log("Commands:");
-	console.log("  loans: List all loans");
-	console.log("  usage: Show this usage information");
-	return success(undefined);
-};
+export const usageCommand =
+	(errorMessage?: string) => async (): Promise<Result> => {
+		if (errorMessage) {
+			console.error(errorMessage);
+			console.error(); // blank line
+		}
+		console.log("Usage: npx mediathequeroubaix <command>");
+		console.log("Commands:");
+		console.log("  loans: List all loans");
+		console.log("  usage: Show this usage information");
+		return success(undefined);
+	};
 
 const loanCommand = async (): Promise<Result> => {
 	console.error("Not yet implemented");
@@ -58,7 +59,7 @@ const printConfig = (config: object): Promise<void> => {
 	return Promise.resolve();
 };
 
-const showConfigCommand = async (): Promise<Result> => {
+export const showConfigCommand = async (): Promise<Result> => {
 	const showConfig = pipe(
 		getHomeDir,
 		getConfigFilename,
@@ -75,7 +76,7 @@ export const getCommand = (args: string[]): Command => {
 		const firstArg = args[0];
 		switch (firstArg) {
 			case "usage":
-				return { type: "usage", run: commands() };
+				return { type: "usage", run: usageCommand() };
 			case "loans":
 				return { type: "loans", run: loanCommand };
 			case "config":
@@ -83,13 +84,13 @@ export const getCommand = (args: string[]): Command => {
 			default:
 				return {
 					type: "usage",
-					run: commands(`Unknown command: ${firstArg}`),
+					run: usageCommand(`Unknown command: ${firstArg}`),
 				};
 		}
 	}
 
 	return {
 		type: "usage",
-		run: commands("Missing argument, none provided"),
+		run: usageCommand("Missing argument, none provided"),
 	};
 };
