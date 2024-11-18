@@ -72,7 +72,7 @@ const printConfig = (config: object): Promise<void> => {
 	return Promise.resolve();
 };
 
-export const showConfigCommand = async (): Promise<Result> => {
+const showConfigCommand = async (): Promise<Result> => {
 	const showConfig = pipe(
 		getHomeDir,
 		getConfigFilename,
