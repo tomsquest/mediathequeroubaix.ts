@@ -1,4 +1,5 @@
 import { promises as fs } from "node:fs";
+import { EOL } from "node:os";
 import { sep } from "node:path";
 import { type Result, pipe, success } from "composable-functions";
 
@@ -7,16 +8,27 @@ export type Command = {
 	run: () => Promise<Result>;
 };
 
+export type Reporter = {
+	info(...data: unknown[]): void;
+	error(...data: unknown[]): void;
+};
+
+export const consoleReporter: Reporter = {
+	info: console.info,
+	error: console.error,
+};
+
 export const usageCommand =
-	(errorMessage?: string) => async (): Promise<Result> => {
+	({ reporter }: { reporter: Reporter }) =>
+	(errorMessage?: string) =>
+	async (): Promise<Result> => {
 		if (errorMessage) {
-			console.error(errorMessage);
-			console.error(); // blank line
+			reporter.error(errorMessage + EOL);
 		}
-		console.log("Usage: npx mediathequeroubaix <command>");
-		console.log("Commands:");
-		console.log("  loans: List all loans");
-		console.log("  usage: Show this usage information");
+		reporter.info("Usage: npx mediathequeroubaix <command>");
+		reporter.info("Commands:");
+		reporter.info("  loans: List all loans");
+		reporter.info("  usage: Show this usage information");
 		return success(undefined);
 	};
 
@@ -76,7 +88,10 @@ export const getCommand = (args: string[]): Command => {
 		const firstArg = args[0];
 		switch (firstArg) {
 			case "usage":
-				return { type: "usage", run: usageCommand() };
+				return {
+					type: "usage",
+					run: usageCommand({ reporter: consoleReporter })(),
+				};
 			case "loans":
 				return { type: "loans", run: loanCommand };
 			case "config":
@@ -84,13 +99,17 @@ export const getCommand = (args: string[]): Command => {
 			default:
 				return {
 					type: "usage",
-					run: usageCommand(`Unknown command: ${firstArg}`),
+					run: usageCommand({ reporter: consoleReporter })(
+						`Unknown command: ${firstArg}`,
+					),
 				};
 		}
 	}
 
 	return {
 		type: "usage",
-		run: usageCommand("Missing argument, none provided"),
+		run: usageCommand({ reporter: consoleReporter })(
+			"Missing argument, none provided",
+		),
 	};
 };

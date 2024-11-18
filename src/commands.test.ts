@@ -1,13 +1,5 @@
-import {
-	type Mock,
-	afterEach,
-	beforeEach,
-	describe,
-	expect,
-	spyOn,
-	test,
-} from "bun:test";
-import { getCommand, usageCommand } from "./commands.ts";
+import { afterEach, describe, expect, mock, test } from "bun:test";
+import { type Reporter, getCommand, usageCommand } from "./commands.ts";
 
 describe("getCommand", () => {
 	test("show config", () => {
@@ -52,36 +44,32 @@ describe("getCommand", () => {
 });
 
 describe("usage", () => {
-	let consoleLog: Mock<() => void>;
-	let consoleError: Mock<() => void>;
-
-	beforeEach(() => {
-		consoleLog = spyOn(console, "log");
-		consoleError = spyOn(console, "error");
-	});
+	const infoLog = mock();
+	const errorLog = mock();
+	const reporterMock = { info: infoLog, error: errorLog } as Reporter;
 
 	afterEach(() => {
-		consoleLog.mockRestore();
-		consoleError.mockRestore();
+		infoLog.mockRestore();
+		errorLog.mockRestore();
 	});
 
 	test("no error message", async () => {
-		const cmd = usageCommand();
+		const cmd = usageCommand({ reporter: reporterMock })();
 
 		const result = await cmd();
 
 		expect(result.success).toEqual(true);
-		expect(consoleError).toHaveBeenCalledTimes(0);
-		expect(consoleLog.mock.calls.join(" ")).toMatch(/Usage: /);
+		expect(errorLog).toHaveBeenCalledTimes(0);
+		expect(infoLog.mock.calls.join(" ")).toMatch(/Usage: /);
 	});
 
 	test("with error message", async () => {
-		const cmd = usageCommand("OMG");
+		const cmd = usageCommand({ reporter: reporterMock })("OMG");
 
 		const result = await cmd();
 
 		expect(result.success).toEqual(true);
-		expect(consoleError.mock.calls.join(" ")).toMatch(/OMG/);
-		expect(consoleLog.mock.calls.join(" ")).toMatch(/Usage: /);
+		expect(errorLog.mock.calls.join(" ")).toMatch(/OMG/);
+		expect(infoLog.mock.calls.join(" ")).toMatch(/Usage: /);
 	});
 });
