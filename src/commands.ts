@@ -27,8 +27,9 @@ export const usageCommand =
 		}
 		reporter.info("Usage: npx mediathequeroubaix <command>");
 		reporter.info("Commands:");
-		reporter.info("  loans: List all loans");
-		reporter.info("  usage: Show this usage information");
+		reporter.info("  loans:	List all loans");
+		reporter.info("  config:	Show current configuration");
+		reporter.info("  usage:	Show this usage information");
 		return success(undefined);
 	};
 
